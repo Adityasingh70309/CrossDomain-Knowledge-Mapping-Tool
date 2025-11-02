@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Authentication System - Aman Jaiswal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.3), transparent 50%);
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .presentation {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-bar {
+            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lock-icon {
+            font-size: 40px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header-left h1 {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-left p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .intern-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 6px 18px;
+            border-radius: 30px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: inline-block;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .name {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            padding: 25px 50px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(126, 34, 206, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1e3c72, #7e22ce);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            font-size: 36px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #1e3c72;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .card-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card li {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #7e22ce;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border-left: 3px solid #7e22ce;
+            transition: transform 0.2s ease;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+        }
+
+        .tech-item strong {
+            color: #1e3c72;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .tech-item span {
+            color: #7e22ce;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 3px 8px rgba(126, 34, 206, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.08);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid #7e22ce;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #7e22ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bar {
+            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .footer-left {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .status-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 14px;
+            border-radius: 18px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Custom scrollbar */
+        .main-content::-webkit-scrollbar,
+        .card-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-track,
+        .card-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb,
+        .card-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #1e3c72, #7e22ce);
+            border-radius: 10px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover,
+        .card-content::-webkit-scrollbar-thumb:hover {
+            background: #7e22ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Header -->
+        <div class="header-bar">
+            <div class="header-left">
+                <div class="lock-icon">🔐</div>
+                <div>
+                    <h1>JWT Authentication System</h1>
+                    <p>Full-Stack Web Application with Secure Authentication</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="intern-badge">INTERN PROJECT</div>
+                <div class="name">Aman Jaiswal</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-content">
+            <!-- What I Built -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📦</div>
+                    <h2>What I Built</h2>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Complete JWT authentication system</li>
+                        <li>User registration & login functionality</li>
+                        <li>Secure password hashing with bcryptjs</li>
+                        <li>Protected dashboard with user profile</li>
+                        <li>Responsive UI with gradient design</li>
+                        <li>MongoDB database integration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Technology Stack -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💻</div>
+                    <h2>Technology Stack</h2>
+                </div>
+                <div class="card-content">
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <strong>Backend</strong>
+                            <span>Node.js • Express<br>MongoDB • JWT</span>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Frontend</strong>
+                            <span>React • Router<br>Axios • CSS3</span>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Security</strong>
+                            <span>bcryptjs • JWT<br>CORS • Tokens</span>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Database</strong>
+                            <span>MongoDB Atlas<br>Mongoose ODM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features & Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">✨</div>
+                    <h2>Key Features</h2>
+                </div>
+                <div class="card-content">
+                    <div class="badge-container">
+                        <span class="badge">User Registration</span>
+                        <span class="badge">Secure Login</span>
+                        <span class="badge">JWT Tokens</span>
+                        <span class="badge">Protected Routes</span>
+                        <span class="badge">Password Hashing</span>
+                        <span class="badge">User Dashboard</span>
+                        <span class="badge">Logout Function</span>
+                        <span class="badge">Beautiful UI</span>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-number">5000+</div>
+                            <div class="stat-label">Lines of Code</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Project Files</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Functional</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What I Learned -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h2>What I Learned</h2>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Full-stack web development workflow</li>
+                        <li>JWT authentication implementation</li>
+                        <li>Database design & integration</li>
+                        <li>RESTful API design best practices</li>
+                        <li>React component architecture</li>
+                        <li>Security & encryption concepts</li>
+                        <li>Docker containerization basics</li>
+                        <li>Professional development practices</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-bar">
+            <div class="footer-left">
+                <span class="status-badge">✅ Project Complete</span>
+                <span>Backend: localhost:5000</span>
+                <span>Frontend: localhost:3000</span>
+            </div>
+            <div>
+                <strong>November 2025</strong>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
