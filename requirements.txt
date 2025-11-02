@@ -1,0 +1,7 @@
+streamlit
+spacy
+py2neo
+python-decouple
+spacy-transformers
+sentence-transformers
+streamlit-option-menu

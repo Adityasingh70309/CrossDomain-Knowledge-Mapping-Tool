@@ -1,0 +1,65 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+.venv/
+
+# Secrets (DO NOT PUSH THESE)
+.env
+*.env
+
+# Streamlit
+.streamlit/
+
+# IDE config
+.vscode/
+.idea/
+```
+
+### Step 2: Initialize Your Local Repository
+
+Open your terminal (PowerShell) **in your `knowmap_project/` folder**. Make sure your `(venv)` is active.
+
+Run these three commands one by one:
+
+1.  **Initialize Git:**
+    ```bash
+    git init
+    ```
+2.  **Add all files** (this will automatically skip the files in your `.gitignore`):
+    ```bash
+    git add .
+    ```
+3.  **Create your first "save"** (a commit):
+    ```bash
+    git commit -m "Initial commit of Knowmap project"
+    ```
+
+### Step 3: Create a New Repository on GitHub
+
+1.  Go to [GitHub.com](https://github.com) and log in.
+2.  Click the **`+`** icon in the top-right corner and select **"New repository"**.
+3.  Give your repository a name (e.g., `knowmap-project`).
+4.  **IMPORTANT:** Do **NOT** check any boxes to add a `README`, `license`, or `.gitignore`. Your project already has these.
+5.  Click **"Create repository"**.
+
+### Step 4: Push Your Code to GitHub
+
+After creating the repository, GitHub will show you a page titled "…or push an existing repository from the command line".
+
+Copy those three commands and run them in your terminal. They will look like this (but with your username and repository name):
+
+1.  **Link your local repo to the one on GitHub:**
+    ```bash
+    git remote add origin https://github.com/your-username/knowmap-project.git
+    ```
+2.  **(Good practice) Rename your main branch to `main`:**
+    ```bash
+    git branch -M main
+    ```
+3.  **Push (upload) your code:**
+    ```bash
+    git push -u origin main
+    

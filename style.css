@@ -1,0 +1,64 @@
+/* Make buttons purple */
+div[data-testid="stButton"] > button[data-testid="baseButton-primary"] {
+background-color: #5B45E0;
+border-color: #5B45E0;
+color: white;
+}
+
+div[data-testid="stButton"] > button[data-testid="baseButton-primary"]:hover {
+background-color: #4a37b3;
+border-color: #4a37b3;
+}
+
+/* Style secondary button */
+div[data-testid="stButton"] > button[data-testid="baseButton-secondary"] {
+background-color: #f0f2f6;
+color: #31333F;
+}
+
+div[data-testid="stButton"] > button[data-testid="baseButton-secondary"]:hover {
+background-color: #e0e2e6;
+border-color: #e0e2e6;
+}
+
+/* Create the card effect from the mockup */
+.card {
+background-color: #ffffff;
+padding: 2rem 2rem 1.5rem 2rem;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+border: 1px solid #e0e2e6;
+}
+
+/* Style the "Forgot password?" link /
+.forgot-password-link {
+text-decoration: none;
+color: #5B45E0;
+float: right;
+font-size: 14px;
+padding-top: 5px; / Align with checkbox */
+}
+.forgot-password-link:hover {
+text-decoration: underline;
+}
+
+/* Style the top header bar on the dashboard page */
+.header-bar {
+background-color: #5B45E0;
+color: white;
+padding: 0.75rem 1.5rem;
+border-radius: 10px;
+font-size: 1.25rem;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.header-badge {
+background-color: rgba(255, 255, 255, 0.2);
+color: white;
+padding: 0.25rem 0.75rem;
+border-radius: 15px;
+font-size: 0.9rem;
+font-weight: 500;
+}
