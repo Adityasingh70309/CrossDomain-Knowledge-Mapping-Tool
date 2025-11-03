@@ -1,3 +1,4 @@
+ HEAD
 # Python cache
 __pycache__/
 *.pyc
@@ -62,4 +63,32 @@ Copy those three commands and run them in your terminal. They will look like thi
 3.  **Push (upload) your code:**
     ```bash
     git push -u origin main
-    
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+*/.env
+
+# Build files
+build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Package lock files (optional)
+package-lock.json
+*/package-lock.json
+>>>>>>> origin/User-authentication
