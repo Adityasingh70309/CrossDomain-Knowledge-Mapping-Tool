@@ -34,13 +34,6 @@ st.markdown("""
         font-size: 1.2rem;
         margin-bottom: 2rem;
     }
-    .feature-card {
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px 0;
-        border-left: 4px solid #2E8B57;
-    }
     .status-item {
         display: flex;
         justify-content: space-between;
@@ -474,25 +467,6 @@ def main():
         """, unsafe_allow_html=True)
     
     with col2:
-        # Features section
-        st.subheader("🌱 Enhanced Features")
-        
-        features = [
-            "Dynamic Graph Generation",
-            "White Background Graph", 
-            "High Contrast Text",
-            "Smart Text Wrapping",
-            "Interactive Exploration",
-            "Real-time Relationship Mapping"
-        ]
-        
-        for feature in features:
-            st.markdown(f"""
-            <div class="feature-card">
-                🚀 {feature}
-            </div>
-            """, unsafe_allow_html=True)
-        
         # Search suggestions
         st.subheader("💡 Try These Searches")
         suggestions = [
