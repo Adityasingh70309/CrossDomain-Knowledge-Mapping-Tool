@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c23 50%, #6b9d3a 100%);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -31,8 +31,8 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.3), transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(139, 195, 74, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(104, 159, 56, 0.3), transparent 50%);
             animation: gradient 15s ease infinite;
         }
 
@@ -55,7 +55,7 @@
         }
 
         .header-bar {
-            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #6b9d3a 100%);
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
@@ -149,11 +149,11 @@
         }
 
         .card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
             border-radius: 16px;
             padding: 25px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(126, 34, 206, 0.1);
+            border: 1px solid rgba(139, 195, 74, 0.2);
             position: relative;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -169,7 +169,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #1e3c72, #7e22ce);
+            background: linear-gradient(90deg, #2d5016, #6b9d3a);
         }
 
         .card:hover {
@@ -196,7 +196,7 @@
 
         .card h2 {
             font-size: 20px;
-            color: #1e3c72;
+            color: #2d5016;
             font-weight: 700;
             margin: 0;
         }
@@ -221,11 +221,9 @@
         }
 
         .card li:before {
-            content: "✓";
+            content: "🌾";
             position: absolute;
             left: 0;
-            color: #7e22ce;
-            font-weight: bold;
             font-size: 16px;
         }
 
@@ -241,7 +239,7 @@
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-            border-left: 3px solid #7e22ce;
+            border-left: 3px solid #6b9d3a;
             transition: transform 0.2s ease;
         }
 
@@ -250,7 +248,7 @@
         }
 
         .tech-item strong {
-            color: #1e3c72;
+            color: #2d5016;
             font-size: 13px;
             display: block;
             margin-bottom: 5px;
@@ -258,7 +256,7 @@
         }
 
         .tech-item span {
-            color: #7e22ce;
+            color: #6b9d3a;
             font-size: 11px;
             line-height: 1.4;
         }
@@ -271,13 +269,13 @@
         }
 
         .badge {
-            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #6b9d3a 100%);
             color: white;
             padding: 6px 14px;
             border-radius: 18px;
             font-size: 11px;
             font-weight: 600;
-            box-shadow: 0 3px 8px rgba(126, 34, 206, 0.3);
+            box-shadow: 0 3px 8px rgba(107, 157, 58, 0.3);
             transition: transform 0.2s ease;
         }
 
@@ -297,13 +295,13 @@
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-            border-top: 3px solid #7e22ce;
+            border-top: 3px solid #6b9d3a;
         }
 
         .stat-number {
             font-size: 28px;
             font-weight: 700;
-            background: linear-gradient(135deg, #1e3c72, #7e22ce);
+            background: linear-gradient(135deg, #2d5016, #6b9d3a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
@@ -317,7 +315,7 @@
         }
 
         .footer-bar {
-            background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #6b9d3a 100%);
             padding: 15px 50px;
             display: flex;
             justify-content: space-between;
@@ -355,13 +353,13 @@
 
         .main-content::-webkit-scrollbar-thumb,
         .card-content::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #1e3c72, #7e22ce);
+            background: linear-gradient(135deg, #2d5016, #6b9d3a);
             border-radius: 10px;
         }
 
         .main-content::-webkit-scrollbar-thumb:hover,
         .card-content::-webkit-scrollbar-thumb:hover {
-            background: #7e22ce;
+            background: #6b9d3a;
         }
     </style>
 </head>
@@ -370,7 +368,7 @@
         <!-- Header -->
         <div class="header-bar">
             <div class="header-left">
-                <div class="lock-icon">🔐</div>
+                <div class="lock-icon">🌱</div>
                 <div>
                     <h1>JWT Authentication System</h1>
                     <p>Full-Stack Web Application with Secure Authentication</p>
@@ -387,7 +385,7 @@
             <!-- What I Built -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">📦</div>
+                    <div class="card-icon">🚜</div>
                     <h2>What I Built</h2>
                 </div>
                 <div class="card-content">
@@ -405,7 +403,7 @@
             <!-- Technology Stack -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">💻</div>
+                    <div class="card-icon">🌾</div>
                     <h2>Technology Stack</h2>
                 </div>
                 <div class="card-content">
@@ -433,7 +431,7 @@
             <!-- Key Features & Stats -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">✨</div>
+                    <div class="card-icon">🌻</div>
                     <h2>Key Features</h2>
                 </div>
                 <div class="card-content">
@@ -467,7 +465,7 @@
             <!-- What I Learned -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">🎯</div>
+                    <div class="card-icon">🌿</div>
                     <h2>What I Learned</h2>
                 </div>
                 <div class="card-content">
