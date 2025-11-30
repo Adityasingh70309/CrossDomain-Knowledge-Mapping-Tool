@@ -104,19 +104,46 @@ def process_text_block(text: str):
     if not triples:
         st.warning("No structured triples found. Try adding more context.")
         return
+    # Persist triples in session so UI survives reruns
+    st.session_state["last_triples"] = triples
     st.success(f"✅ Extracted {len(triples)} knowledge triples.")
     df = pd.DataFrame(triples, columns=["Subject", "Relation", "Object"])
     st.dataframe(df, use_container_width=True)
+    # Preview first 3 triples being sent to Neo4j
+    preview = df.head(3)
+    if not preview.empty:
+        st.caption("Preview of first 3 triples to store:")
+        st.table(preview)
     try:
         G = pipelines_extraction.triples_to_graph(triples)
         html = pipelines_extraction.graph_to_pyvis_html(G)
         components.html(html, height=600, scrolling=True)
     except Exception as e:
         st.warning(f"Graph render failed: {e}")
+    # Show target DB and allow quick connection test
+    st.info(f"Neo4j target: {getattr(importlib.import_module('database'), 'NEO4J_URI', 'unknown')} as {getattr(importlib.import_module('database'), 'NEO4J_USER', 'unknown')}")
+    if st.button("🔌 Test Neo4j Connection"):
+        try:
+            graph = importlib.import_module('database').get_neo4j_graph()
+            if graph:
+                ok = graph.run("RETURN 1 AS x").evaluate()
+                st.success(f"Neo4j connection OK (RETURN 1 -> {ok}).")
+            else:
+                st.error("Neo4j connection is None. Check .env and Docker.")
+        except Exception as e:
+            st.error(f"Connection test failed: {e}")
     if st.button("📡 Store in Neo4j Database", use_container_width=True):
+        triples_to_store = st.session_state.get("last_triples", triples)
         with st.spinner("Storing triples in Neo4j..."):
-            count = pipelines_neo4j_loader.store_triples_in_neo4j(triples)
+            count = pipelines_neo4j_loader.store_triples_in_neo4j(triples_to_store)
         st.success(f"Stored {count} triples successfully in Neo4j graph!")
+        # Re-render graph to avoid UI vanishing after rerun
+        try:
+            G2 = pipelines_extraction.triples_to_graph(triples_to_store)
+            html2 = pipelines_extraction.graph_to_pyvis_html(G2)
+            components.html(html2, height=600, scrolling=True)
+        except Exception:
+            pass
 
 
 # --- [MAIN LAYOUT] ---
@@ -285,3 +312,38 @@ st.write("✅ NLP Model: Loaded")
 st.write("✅ Neo4j Connection: Active")
 st.write("🌿 Ready for Knowledge Graph Ingestion")
 st.markdown('</div>', unsafe_allow_html=True)
+
+# --- [STORE FROM SESSION] ---
+# Provide a global store action when persisted triples exist to avoid vanishing buttons on rerun.
+if "last_triples" in st.session_state and st.session_state["last_triples"]:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 📦 Store Last Extracted Triples")
+    st.info(f"Neo4j target: {getattr(importlib.import_module('database'), 'NEO4J_URI', 'unknown')} as {getattr(importlib.import_module('database'), 'NEO4J_USER', 'unknown')}")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔌 Test Neo4j Connection", key="test_conn_global_infosys"):
+            try:
+                graph = importlib.import_module('database').get_neo4j_graph()
+                if graph:
+                    ok = graph.run("RETURN 1 AS x").evaluate()
+                    st.success(f"Neo4j connection OK (RETURN 1 -> {ok}).")
+                else:
+                    st.error("Neo4j connection is None. Check .env and Docker.")
+            except Exception as e:
+                st.error(f"Connection test failed: {e}")
+    with col2:
+        if st.button("📡 Store in Neo4j", type="primary", key="store_global_infosys"):
+            triples_to_store = st.session_state.get("last_triples", [])
+            if not triples_to_store:
+                st.error("No triples available to store.")
+            else:
+                with st.spinner("Storing triples in Neo4j..."):
+                    count = pipelines_neo4j_loader.store_triples_in_neo4j(triples_to_store)
+                st.success(f"Stored {count} triples successfully in Neo4j graph!")
+                try:
+                    G2 = pipelines_extraction.triples_to_graph(triples_to_store)
+                    html2 = pipelines_extraction.graph_to_pyvis_html(G2)
+                    components.html(html2, height=600, scrolling=True)
+                except Exception:
+                    pass
+    st.markdown('</div>', unsafe_allow_html=True)
